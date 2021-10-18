@@ -2,7 +2,14 @@
 #include <stdio.h>
 #include "stack.h"
 
-stack* new_stack()
+// stack structure contains pointer array where puts data,
+// size[] maintains the prefix sum of array size,
+// size_ptr represents the maximum position on pointer array that can be used,
+// now_size_ptr represents what the position the pointer is now on,
+// ptr represents a pointer to a virtual array which's combinded by many arraies.
+
+// return a pointer to stack structure
+stack* new_stack()we
 {
     stack *tmp = malloc(sizeof(stack));
     if (tmp == NULL) return NULL;
@@ -11,6 +18,7 @@ stack* new_stack()
 
     int nodesize_dym = _NODEESIZE_;
 
+    // require memory, if failed require smaller
     do
     {
         if (!nodesize_dym) return NULL;
@@ -24,14 +32,18 @@ stack* new_stack()
     return tmp;
 }
 
+// add a value to this stack
 void push(stack *this, int val)
 {
     ++this->ptr;
+    
+    // judge if cross the boundary of the total array space
     if (this->size[this->size_ptr] - 1 < this->ptr)
     {
         ++this->size_ptr;
         if (this->size_ptr >= _MAXN_) return;
 
+        // require memory, if failed require smaller
         int nodesize_dym = _NODEESIZE_;
         do
         {
@@ -43,10 +55,9 @@ void push(stack *this, int val)
 
         }while(this->arr[this->size_ptr] == NULL);
 
-        this->size[this->size_ptr] = 0;
-        this->size[this->size_ptr] += this->size[this->size_ptr - 1];
-        this->now_size_ptr = this->size_ptr;
-        this->arr[this->size_ptr][this->ptr - this->size[this->size_ptr - 1]] = val;
+        this->size[this->size_ptr] += this->size[this->size_ptr - 1]; // maintain the prefix sum of size of arraies 
+        this->now_size_ptr = this->size_ptr; // move pointer of size array to maximum position
+        this->arr[this->size_ptr][this->ptr - this->size[this->size_ptr - 1]] = val; // push value
     }
     else
     {
@@ -57,10 +68,13 @@ void push(stack *this, int val)
 
 int pop(stack *this)
 {
+    // error
     if (this->ptr == 0) return -1;
 
     int res = this->arr[this->now_size_ptr][this->ptr - (this->now_size_ptr == 0 ? 0 : this->size[this->now_size_ptr - 1])];
     --this->ptr;
+    
+    // if pointer cross the left boundary of now array
     if (this->now_size_ptr > 0 && this->ptr - this->size[this->now_size_ptr - 1] < 0)
         --this->now_size_ptr;
 
