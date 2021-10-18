@@ -9,7 +9,7 @@
 // ptr represents a pointer to a virtual array which's combinded by many arraies.
 
 // return a pointer to stack structure
-stack* new_stack()we
+stack* new_stack()
 {
     stack *tmp = malloc(sizeof(stack));
     if (tmp == NULL) return NULL;
@@ -18,7 +18,7 @@ stack* new_stack()we
 
     int nodesize_dym = _NODEESIZE_;
 
-    // require memory, if failed require smaller
+    // require memory. if failed, require smaller
     do
     {
         if (!nodesize_dym) return NULL;
@@ -43,7 +43,7 @@ void push(stack *this, int val)
         ++this->size_ptr;
         if (this->size_ptr >= _MAXN_) return;
 
-        // require memory, if failed require smaller
+        // require memory. if failed, require smaller
         int nodesize_dym = _NODEESIZE_;
         do
         {
@@ -68,7 +68,7 @@ void push(stack *this, int val)
 
 int pop(stack *this)
 {
-    // error
+    // invalid
     if (this->ptr == 0) return -1;
 
     int res = this->arr[this->now_size_ptr][this->ptr - (this->now_size_ptr == 0 ? 0 : this->size[this->now_size_ptr - 1])];
