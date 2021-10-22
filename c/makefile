@@ -1,9 +1,12 @@
 CC:=gcc
+TARGET=main
 
-all: main.o stack.o
-	$(CC) -o main main.o stack.o
+all: ${TARGET}.o stack.o
+	$(CC) -o ${TARGET} ${TARGET}.o stack.o
+
 dep: main.c stack.c
-	$(CC) -Wall -c main.c
-	$(CC) -Wall -c stack.c
+	$(CC) -c main.c
+	$(CC) -c stack.c
+
 clean:
-	rm *.o
+	rm *.o ${TARGET}
