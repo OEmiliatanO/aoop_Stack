@@ -1,9 +1,12 @@
 CC:=g++
+TARGET=main
 
-all: main.o stack.o
-	$(CC) -o main main.o stack.o
+all: ${TARGET}.o stack.o
+	$(CC) -o ${TARGET} ${TARGET}.o stack.o
+
 dep: main.cpp stack.cpp
-	$(CC) -Wall -c main.cpp
-	$(CC) -Wall -c stack.cpp
+	$(CC) -c main.cpp
+	$(CC) -c stack.cpp
+
 clean:
-	rm *.o
+	rm *.o ${TARGET}
